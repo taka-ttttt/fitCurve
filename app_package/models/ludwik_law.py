@@ -21,7 +21,9 @@ class LudwikLaw(BaseModel):
     
     def get_strain(self, stress: float) -> float:
         """指定された応力におけるひずみを計算"""
-        return (stress - self.yield_stress) / self.k ** (1 / self.n)
+        # (stress - yield_stress) / k ** (1/n) ではなく
+        # ((stress - yield_stress) / k) ** (1/n) が正しい
+        return ((stress - self.yield_stress) / self.k) ** (1 / self.n)
 
     @staticmethod
     def ludwik_law_function(x, k, n, yield_stress):
